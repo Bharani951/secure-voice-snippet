@@ -1,0 +1,50 @@
+.waveform {
+  --waveform-bg: #f3f4f6;
+  --waveform-progress: #0ea5e9;
+  --waveform-cursor: #0284c7;
+  --waveform-height: 80px;
+  
+  background-color: var(--waveform-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: var(--waveform-height);
+}
+
+.recording-indicator {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.5rem;
+  background-color: #1f2937;
+  color: white;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
