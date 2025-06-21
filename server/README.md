@@ -5,7 +5,7 @@ Express server for SecureVoice Snippet application.
 ## Setup
 
 1. \`npm install\`
-2. Create a \`.env\` file based on \`.env.example\`
+2. Create a \`.env\` file
 3. \`npm run dev\` to start the development server
 
 ## Features
