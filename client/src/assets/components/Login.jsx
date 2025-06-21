@@ -10,7 +10,9 @@ const Login = () => {
   
   const { login } = useAuth();
   const navigate = useNavigate();
+   // Add this near the top of your component
   const location = useLocation();
+  const registrationMessage = location.state?.message;
   
   // Get the redirect path from location state or default to dashboard
   const from = location.state?.from?.pathname || '/dashboard';
@@ -41,16 +43,27 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className="max-w-md mx-auto">
-      <div className="card">
-        <h2 className="text-2xl font-bold mb-6 text-center">Log In</h2>
-        
-        {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
-            {error}
-          </div>
-        )}
+
+
+return (
+  <div className="max-w-md mx-auto">
+    <div className="card">
+      <h2 className="text-2xl font-bold mb-6 text-center">Log In</h2>
+      
+      {/* Show registration success message */}
+      {registrationMessage && (
+        <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
+          {registrationMessage}
+        </div>
+      )}
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+          {error}
+        </div>
+      )}
+      
+      {/* Rest of your login form */}
         
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

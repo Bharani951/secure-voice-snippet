@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -14,40 +14,49 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  
+  // Form validation
+  if (!name || !email || !password || !confirmPassword) {
+    setError('Please fill in all fields');
+    return;
+  }
+  
+  if (password !== confirmPassword) {
+    setError('Passwords do not match');
+    return;
+  }
+  
+  if (password.length < 6) {
+    setError('Password must be at least 6 characters long');
+    return;
+  }
+  
+  try {
+    setIsLoading(true);
+    setError('');
     
-    // Form validation
-    if (!name || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
-      return;
-    }
+    // Attempt registration
+    const result = await register({ name, email, password });
     
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
+    if (result.success) {
+      // Redirect to login instead of dashboard
+      navigate('/login', { 
+        state: { 
+          from: { pathname: '/dashboard' },
+          message: 'Registration successful! Please log in with your credentials.'
+        }
+      });
+    } else {
+      setError(result.error || 'Registration failed. Please try again.');
     }
-    
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
-    
-    try {
-      setIsLoading(true);
-      setError('');
-      
-      // Attempt registration
-      await register({ name, email, password });
-      
-      // Redirect to dashboard on success
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
-      console.error('Registration error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  } catch (err) {
+    setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    console.error('Registration error:', err);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="max-w-md mx-auto">

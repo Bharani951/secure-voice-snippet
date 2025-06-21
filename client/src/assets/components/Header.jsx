@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -52,22 +52,22 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex space-x-4">
-            <Link to="/" className="px-3 py-2 rounded-md hover:bg-gray-100">
-              Home
-            </Link>
-            {isAuthenticated && (
-              <>
-                <Link to="/dashboard" className="px-3 py-2 rounded-md hover:bg-gray-100">
-                  Dashboard
-                </Link>
-                <Link to="/record" className="px-3 py-2 rounded-md hover:bg-gray-100">
-                  Record
-                </Link>
-              </>
-            )}
-          </nav>
+          {/* Navigation - Modified to always show all links */}
+         <nav className="hidden md:flex space-x-4">
+  <Link to="/" className="px-3 py-2 rounded-md hover:bg-gray-100">
+    Home
+  </Link>
+  {isAuthenticated && (
+    <>
+      <Link to="/dashboard" className="px-3 py-2 rounded-md hover:bg-gray-100">
+        Dashboard
+      </Link>
+      <Link to="/record" className="px-3 py-2 rounded-md hover:bg-gray-100">
+        Record
+      </Link>
+    </>
+  )}
+</nav>
 
           {/* User Menu */}
           <div className="flex items-center">

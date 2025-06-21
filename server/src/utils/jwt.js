@@ -1,14 +1,18 @@
-// src/utils/jwt.js
 const jwt = require("jsonwebtoken");
 
+// Get JWT secret from environment variables
+const JWT_SECRET =
+  process.env.JWT_SECRET || "your-secret-key-for-development-only";
+const JWT_EXPIRE = process.env.JWT_EXPIRE || "7d";
+
 /**
- * Generate a JWT token
- * @param {Object} payload - Data to encode in the token
+ * Generate a JWT token for a user
+ * @param {Object} user - User object containing id
  * @returns {String} JWT token
  */
-const generateToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+const generateToken = (user) => {
+  return jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRE,
   });
 };
 
@@ -19,7 +23,7 @@ const generateToken = (payload) => {
  */
 const verifyToken = (token) => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    return jwt.verify(token, JWT_SECRET);
   } catch (error) {
     throw new Error("Invalid or expired token");
   }

@@ -1,56 +1,45 @@
-// src/middleware/error.middleware.js
-const constants = require("../config/constants");
-
 /**
- * Custom error handler middleware
+ * Custom error handler
  */
 const errorHandler = (err, req, res, next) => {
-  // Log error for debugging
-  console.error(err);
+  console.error(err.stack);
 
-  // Default error status and message
-  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  let message = err.message || "Something went wrong";
-
-  // Handle Mongoose validation errors
+  // Mongoose validation error
   if (err.name === "ValidationError") {
-    statusCode = 400;
-
-    // Format validation errors
-    const errors = Object.values(err.errors).map((error) => error.message);
-    message = errors.join(", ");
+    const errors = Object.values(err.errors).map((val) => val.message);
+    return res.status(400).json({
+      success: false,
+      message: errors.join(", "),
+    });
   }
 
-  // Handle Mongoose bad ObjectId
-  if (err.name === "CastError" && err.kind === "ObjectId") {
-    statusCode = 404;
-    message = "Resource not found";
+  // Mongoose duplicate key error
+  if (err.code === 11000) {
+    return res.status(400).json({
+      success: false,
+      message: "Email already exists",
+    });
   }
 
-  // Handle Multer errors
-  if (err.code === "LIMIT_FILE_SIZE") {
-    statusCode = 400;
-    message = `File too large. Maximum size is ${
-      constants.MAX_FILE_SIZE / (1024 * 1024)
-    } MB`;
-  }
-
-  // Handle JWT errors
+  // JWT error
   if (err.name === "JsonWebTokenError") {
-    statusCode = 401;
-    message = constants.ERRORS.AUTH.TOKEN_INVALID;
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token",
+    });
   }
 
+  // JWT expired error
   if (err.name === "TokenExpiredError") {
-    statusCode = 401;
-    message = constants.ERRORS.AUTH.TOKEN_EXPIRED;
+    return res.status(401).json({
+      success: false,
+      message: "Token expired",
+    });
   }
 
-  // Send error response
-  res.status(statusCode).json({
+  res.status(err.statusCode || 500).json({
     success: false,
-    message,
-    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    message: err.message || "Server Error",
   });
 };
 
