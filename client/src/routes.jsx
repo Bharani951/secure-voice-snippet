@@ -6,7 +6,7 @@ import { useAuth } from './assets/context/AuthContext';
 import HomePage from './assets/pages/HomePage';
 import LoginPage from './assets/pages/LoginPage';
 import RegisterPage from './assets/pages/RegisterPage';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './assets/components/Dashboard';
 import SnippetPage from './assets/pages/SnippetPage';
 import ViewPage from './assets/pages/ViewPage';
 

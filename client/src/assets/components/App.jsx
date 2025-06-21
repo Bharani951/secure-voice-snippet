@@ -1,8 +1,10 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import '../App.css';
-import { AuthProvider } from '../context/AuthContext';
-import { SnippetProvider } from '../context/SnippetContext';
-import AppRoutes from '../../routes';
+import AppRoutes from "../../routes";
+// Fix: Go up two levels to reach src directory
+import "../../App.css";
+// Fix other imports to match your directory structure
+import { AuthProvider } from "../context/AuthContext";
+import { SnippetProvider } from "../context/SnippetContext";
 import Header from './Header';
 
 const App = () => {
