@@ -1,14 +1,14 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from './assets/context/AuthContext';
 
 // Pages
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import HomePage from './assets/pages/HomePage';
+import LoginPage from './assets/pages/LoginPage';
+import RegisterPage from './assets/pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
-import SnippetPage from './pages/SnippetPage';
-import ViewPage from './pages/ViewPage';
+import SnippetPage from './assets/pages/SnippetPage';
+import ViewPage from './assets/pages/ViewPage';
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {

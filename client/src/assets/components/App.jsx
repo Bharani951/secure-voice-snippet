@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import '../App.css';
 import { AuthProvider } from '../context/AuthContext';
 import { SnippetProvider } from '../context/SnippetContext';
-import AppRoutes from '../routes';
+import AppRoutes from '../../routes';
 import Header from './Header';
 
 const App = () => {
